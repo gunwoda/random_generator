@@ -33,10 +33,7 @@ function App() {
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Box sx={{ mb: 4, textAlign: 'center' }}>
         <Typography variant="h3" component="h1" gutterBottom sx={{ fontWeight: 'bold', color: '#1a73e8' }}>
-          팀뽑기
-        </Typography>
-        <Typography variant="subtitle1" color="text.secondary">
-          티어별로 독립 셔플하여 완벽한 실력 밸런스를 맞춰주는 팀 매칭 시스템
+          랜덤 팀 뽑기
         </Typography>
       </Box>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', mx: -2 }}>
