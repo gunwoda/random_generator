@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { 
   Container, Typography, Box, Paper, TextField, Button, 
-  Card, CardContent, Chip, Tabs, Tab, ToggleButton, 
-  ToggleButtonGroup 
+  Card, CardContent, Chip, Tabs, Tab
 } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import GroupIcon from '@mui/icons-material/Group';
@@ -20,8 +19,8 @@ const TIER_COLORS = [
 
 function App() {
   const {
-    tierCount, tiers, mode, modeValue, teams, totalParticipants,
-    handleTierCountChange, handleTierInputChange, setMode, setModeValue,
+    tierCount, tiers, teamCount, teams, totalParticipants,
+    handleTierCountChange, handleTierInputChange, setTeamCount,
     generateTeams, copyToClipboard, getCleanNames
   } = useTeamGenerator();
   const [activeTab, setActiveTab] = useState(0);
@@ -34,7 +33,7 @@ function App() {
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Box sx={{ mb: 4, textAlign: 'center' }}>
         <Typography variant="h3" component="h1" gutterBottom sx={{ fontWeight: 'bold', color: '#1a73e8' }}>
-          Tier-Based Random Team Generator
+          팀뽑기
         </Typography>
         <Typography variant="subtitle1" color="text.secondary">
           티어별로 독립 셔플하여 완벽한 실력 밸런스를 맞춰주는 팀 매칭 시스템
@@ -55,13 +54,9 @@ function App() {
               />
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-              <ToggleButtonGroup value={mode} exclusive onChange={(_: React.MouseEvent<HTMLElement>, newVal: string) => newVal && setMode(newVal as any)} size="small" fullWidth>
-                <ToggleButton value="teams">총 팀 개수 지정 (N)</ToggleButton>
-                <ToggleButton value="maxPerTeam">팀당 최대 인원 (M)</ToggleButton>
-              </ToggleButtonGroup>
               <TextField
-                label={mode === 'teams' ? '생성할 팀 개수' : '팀당 최대 인원'} type="number" value={modeValue}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setModeValue(Math.max(1, Number(e.target.value)))} size="small"
+                label="생성할 팀 개수" type="number" value={teamCount}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTeamCount(Math.max(1, Number(e.target.value)))} size="small"
               />
             </Box>
           </Paper>

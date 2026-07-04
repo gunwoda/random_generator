@@ -36,8 +36,7 @@ const STORAGE_KEY = 'tier_random_generator_state';
 export function useTeamGenerator() {
   const [tierCount, setTierCount] = useState<number>(3);
   const [tiers, setTiers] = useState<TierData[]>([]);
-  const [mode, setMode] = useState<MatchingMode>('teams');
-  const [modeValue, setModeValue] = useState<number>(4);
+  const [teamCount, setTeamCount] = useState<number>(4);
   const [teams, setTeams] = useState<Team[]>([]);
 
   // Load from localStorage on mount
@@ -48,8 +47,7 @@ export function useTeamGenerator() {
         const parsed = JSON.parse(saved);
         if (parsed.tierCount) setTierCount(parsed.tierCount);
         if (parsed.tiers) setTiers(parsed.tiers);
-        if (parsed.mode) setMode(parsed.mode);
-        if (parsed.modeValue) setModeValue(parsed.modeValue);
+        if (parsed.teamCount) setTeamCount(parsed.teamCount);
       } catch (e) {
         console.error("Failed to parse saved state", e);
       }
@@ -65,11 +63,10 @@ export function useTeamGenerator() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
         tierCount,
         tiers,
-        mode,
-        modeValue
+        teamCount
       }));
     }
-  }, [tierCount, tiers, mode, modeValue]);
+  }, [tierCount, tiers, teamCount]);
 
   const initializeTiers = (count: number) => {
     const newTiers: TierData[] = [];
@@ -120,13 +117,7 @@ export function useTeamGenerator() {
       return;
     }
 
-    let numTeams = 0;
-    if (mode === 'teams') {
-      numTeams = modeValue;
-    } else {
-      numTeams = Math.ceil(totalParticipants / modeValue);
-    }
-
+    let numTeams = teamCount;
     if (numTeams < 1) numTeams = 1;
 
     const initialTeams: Team[] = Array.from({ length: numTeams }, (_, i) => ({
@@ -185,7 +176,7 @@ export function useTeamGenerator() {
     if (teams.length === 0) return;
     
     const text = teams.map(t => {
-      const membersText = t.members.map(m => `${m.name}(${m.tierName})`).join(', ');
+      const membersText = t.members.map(m => m.name).join(', ');
       return `[${t.name}]\n${membersText}`;
     }).join('\n\n');
 
@@ -200,14 +191,12 @@ export function useTeamGenerator() {
   return {
     tierCount,
     tiers,
-    mode,
-    modeValue,
+    teamCount,
     teams,
     totalParticipants,
     handleTierCountChange,
     handleTierInputChange,
-    setMode,
-    setModeValue,
+    setTeamCount,
     generateTeams,
     copyToClipboard,
     getCleanNames
